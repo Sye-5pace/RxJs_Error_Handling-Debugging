@@ -25,6 +25,7 @@ export class FetchMockRequestService {
         this.mockedDataSubject.next(response);
         return this.mockedDataSubject.asObservable();
       }),
+      //Task 2: Implementing Error Handling: Using CatchError and Retry Operator
       catchError(err => {
         this.errorSubject.next(err.message);
         return this.errorSubject.asObservable();

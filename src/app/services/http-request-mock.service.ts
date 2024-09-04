@@ -25,6 +25,8 @@ export class HttpRequestMockService {
           throw new Error('Mock request error');
         }
       }),
+      //Task 2: Implementing Error Handling:
+      //  Using CatchError and Retry Operator
       retry(3),
       catchError(err => {
         console.error('Retries exhausted. Providing fallback response.', err);
