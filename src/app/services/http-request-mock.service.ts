@@ -31,9 +31,8 @@ export class HttpRequestMockService {
       // Using CatchError and Retry Operator
       retry(3),
       catchError(err => {
-        // Task 3: Debug with Tap operator
         console.error('Retries exhausted. Providing fallback response.', err);
-        return throwError(() => new Error('Retries exhausted. Final error.'));
+        return of('Fallback response after retries failed')
       }),
       // Task 3: Debug with Tap operator
       tap({
