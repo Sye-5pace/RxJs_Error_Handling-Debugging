@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable, of, throwError } from 'rxjs';
-import { catchError, delay, map } from 'rxjs/operators';
+import { catchError, delay, map, retry } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -25,8 +25,10 @@ export class HttpRequestMockService {
           throw new Error('Mock request error');
         }
       }),
+      retry(3),
       catchError(err => {
-        return throwError(() => new Error('Mock request error'));
+        console.error('Retries exhausted. Providing fallback response.', err);
+        return throwError(() => new Error('Retries exhausted. Final error.'));
       })
     );
   }
