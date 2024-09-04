@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable, of, throwError } from 'rxjs';
-import { catchError, delay, map, retry } from 'rxjs/operators';
+import { catchError, delay, map, retry, tap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -17,6 +17,8 @@ export class HttpRequestMockService {
   mockRequest(): Observable<string> {
     return of(2, 4, 10, 9, 0).pipe(
       delay(800),
+      // Task 3: Debug with Tap operator
+      tap(()=> console.log('Http request initalized')),
       map(() => 'Mocked http request response'),
       map(response => {
         if (Math.random() > 0.5) {
@@ -25,12 +27,19 @@ export class HttpRequestMockService {
           throw new Error('Mock request error');
         }
       }),
-      //Task 2: Implementing Error Handling:
-      //  Using CatchError and Retry Operator
+      // Task 2: Implementing Error Handling:
+      // Using CatchError and Retry Operator
       retry(3),
       catchError(err => {
+        // Task 3: Debug with Tap operator
         console.error('Retries exhausted. Providing fallback response.', err);
         return throwError(() => new Error('Retries exhausted. Final error.'));
+      }),
+      // Task 3: Debug with Tap operator
+      tap({
+        next: (value) => console.log('Response received:', value),
+        error: (err) => console.error('Error occurred:', err),
+        complete: () => console.log('Request completed.')
       })
     );
   }

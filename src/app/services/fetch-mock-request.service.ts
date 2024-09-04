@@ -30,6 +30,7 @@ export class FetchMockRequestService {
         this.errorSubject.next(err.message);
         return this.errorSubject.asObservable();
       }),
+      // Task 3: Debug with Tap operator
       tap(response => {
         if (response === null) {
           console.log('No data found in mock service or failed');
