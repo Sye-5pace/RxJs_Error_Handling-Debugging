@@ -1,5 +1,27 @@
 <main class="w-full min-h-screen box-border font-medium bg-slate-100 flex items-center justify-center">
-  <div class="flex justify-center">
+  <div class="flex flex-col justify-center items-center">
     <h1 class="text-[2.125rem] text-stone-700">RxJs Error Handling and Debugging</h1>
+    <!-- Task 4 Display results -->
+    <div class="p-4">
+      <button (click)="fetchData()" class="bg-blue-500 text-white p-2 rounded">Fetch Data</button>
+
+      @if (loading$ | async) {
+        <div class="mt-4 p-2 border rounded bg-yellow-100 text-yellow-600">
+          <p>Loading...</p>
+        </div>
+      }
+
+      @if (error$ | async; as error) {
+        <div class="mt-4 p-2 border rounded bg-red-100 text-red-600">
+          <p>Error: {{ error }}</p>
+        </div>
+      }
+
+      @if (mockedData$ | async; as data) {
+        <div class="mt-4 p-2 border rounded bg-green-100 text-green-600">
+          <p>Data: {{ data }}</p>
+        </div>
+      }
+    </div>
   </div>
 </main>

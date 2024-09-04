@@ -15,10 +15,16 @@ export class FetchMockRequestService {
   mockedData$ = this.mockedDataSubject.asObservable();
   private errorSubject = new BehaviorSubject<string | null>(null);
   error$ = this.errorSubject.asObservable();
+  private loadingSubject = new BehaviorSubject<boolean>(false);
+  loading$ = this.loadingSubject.asObservable();
+
 
   constructor(private mockService: HttpRequestMockService) {}
 
   fetchMockedRequest() {
+    // Task 4: Displaying Results: display a loading indicator while request is in progress
+    this.loadingSubject.next(true);
+
     this.mockService.mockRequest().pipe(
       tap(() => console.log('Request started!')),
       switchMap((response: string) => {
@@ -37,6 +43,8 @@ export class FetchMockRequestService {
         } else {
           console.log('Request completed successfully', response);
         }
+        // Task 4: Displaying Results: display a loading indicator while request is in progress
+        this.loadingSubject.next(false);
       })
     ).subscribe();
   }
