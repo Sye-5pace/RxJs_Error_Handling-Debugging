@@ -1,5 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { AppComponent } from './app.component';
+import { of } from 'rxjs';
 
 describe('AppComponent', () => {
   beforeEach(async () => {
@@ -14,16 +15,30 @@ describe('AppComponent', () => {
     expect(app).toBeTruthy();
   });
 
-  it(`should have the 'RxJs_Error_Handling-Debugging' title`, () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    const app = fixture.componentInstance;
-    expect(app.title).toEqual('RxJs_Error_Handling-Debugging');
+  it('should initialize without errors when created', () => {
+    const fetchServiceMock = {
+      mockedData$: of([]),
+      error$: of(null),
+      loading$: of(false),
+      fetchMockedRequest: jest.fn()
+    };
+    const component = new AppComponent(fetchServiceMock as any);
+    expect(component).toBeTruthy();
   });
 
-  it('should render title', () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    fixture.detectChanges();
-    const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.querySelector('h1')?.textContent).toContain('Hello, RxJs_Error_Handling-Debugging');
+  it('should trigger fetchMockedRequest when fetchData is called', () => {
+    const fetchServiceMock = {
+        mockedData$: of([]),
+        error$: of(null),
+        loading$: of(false),
+        fetchMockedRequest: jest.fn()
+    };
+    const component = new AppComponent(fetchServiceMock as any);
+
+    component.fetchData();
+
+    expect(fetchServiceMock.fetchMockedRequest).toHaveBeenCalled();
   });
+
+  
 });

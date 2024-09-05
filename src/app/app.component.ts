@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
 import { FetchMockRequestService } from './services/fetch-mock-request.service';
 import { CommonModule } from '@angular/common';
 
